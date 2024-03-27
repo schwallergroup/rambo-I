@@ -1,4 +1,5 @@
 import dspy
+
 from ..signatures import RAGSignature
 
 
@@ -12,9 +13,8 @@ class ReActRetrieve(dspy.Module):
     def forward(self, query):
         """Forward pass of the ReActRetrieve module."""
         ctxt = self.retrieve(query)
-        return '\n'.join(ctxt.passages)
+        return "\n".join(ctxt.passages)
 
         # response = self.react(query=query, n=self.n)
         # print(response)
         # return response.relevant_syntheses
-

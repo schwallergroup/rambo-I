@@ -15,10 +15,7 @@ def init_dspy(
     max_tokens: int = 500,
     model: str = "gpt-3.5-turbo-instruct",
 ):
-    language_model = language_model_class(
-        max_tokens=max_tokens,
-        model=model
-    )
+    language_model = language_model_class(max_tokens=max_tokens, model=model)
 
     class Text(BaseModel):
         text: str
@@ -41,7 +38,5 @@ def init_dspy(
             "The Buchwald-Hartwig amination is typically performed in the presence of a palladium catalyst, a base, and a solvent. The reaction is typically carried out at a temperature of 80-100 degrees Celsius.",
         ]
         return [Text(text=opts[i], long_text=opts[i]) for i in range(k)]
-    
+
     dspy.settings.configure(lm=language_model, rm=retrieve)
-
-
