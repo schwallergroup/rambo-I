@@ -6,7 +6,7 @@ import dspy
 from dspy.functional import TypedPredictor
 from pydantic import BaseModel, Field
 
-from .retrieve import ReActRetrieve
+from rambo.tools.retrieval import ReActRetrieve
 
 
 class BojanaOutput(BaseModel):
