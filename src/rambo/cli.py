@@ -27,7 +27,19 @@ logger = logging.getLogger(__name__)
 @click.command()
 def hello():
     init_dspy()
-    click.echo("Hello, World!")
+    click.echo("I Didn’t Come To Rescue Rambo From You. I Came Here To Rescue You From Him.")
+
+@click.command()
+def suggest_me_a_synthesis():
+    init_dspy()
+
+    # format natural language prompt into input for RAG
+    # retrieve k relevant passages (ReAct with RAG as tool)
+    # convert retrieval output into useable output
+    # call BO
+    # evaluate
+
+    click.echo("Suggesting a synthesis...")
 
 @click.group()
 @click.version_option()
