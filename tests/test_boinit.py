@@ -17,7 +17,7 @@ def suzuki_prompt():
 def boinit():
     load_dotenv()
     init_dspy()
-    return BOInitializer()
+    return BOInitializer(5)
 
 
 def test_boinit_suzuki(boinit, suzuki_prompt):
