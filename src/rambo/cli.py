@@ -17,6 +17,7 @@ import logging
 
 import click
 from rambo.utils import init_dspy
+from rambo.rag import BOInitializer
 
 __all__ = [
     "main",
@@ -30,19 +31,26 @@ def hello():
     click.echo("I Didn’t Come To Rescue Rambo From You. I Came Here To Rescue You From Him.")
 
 @click.command()
-def suggest_me_a_synthesis():
+def suggest_me_a_synthesis(query: str ="i'm running a suzuki coupling reaction. what are the initial conditions?"):
     init_dspy()
-
+    
+    click.echo("Suggesting a synthesis...")
     # format natural language prompt into input for RAG
     # retrieve k relevant passages (ReAct with RAG as tool)
     # convert retrieval output into useable output
     # call BO
     # evaluate
-
-    click.echo("Suggesting a synthesis...")
+    boinit = BOInitializer()
+    resp = boinit(query=query)
+    print(resp)
+    
 
 @click.group()
-@click.version_option()
+@click.option('--debug/--no-debug', default=False)
+def cli(debug):
+    click.echo(f"Debug mode is {'on' if debug else 'off'}")
+
+@cli.command()
 def main():
     """CLI for rambo."""
 
