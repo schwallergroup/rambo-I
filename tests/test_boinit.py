@@ -1,4 +1,5 @@
 import pytest
+from dotenv import load_dotenv
 
 from rambo.tools import BOInitializer
 from rambo.utils import init_dspy
@@ -14,6 +15,7 @@ def suzuki_prompt():
 
 @pytest.fixture
 def boinit():
+    load_dotenv()
     init_dspy()
     return BOInitializer()
 
