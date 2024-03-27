@@ -16,6 +16,8 @@ later, but that will cause problems--the code will get executed twice:
 import logging
 
 import click
+from rambo.utils import init_dspy
+from rambo.rag import BOInitializer
 
 __all__ = [
     "main",
@@ -23,6 +25,25 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
+@click.command()
+def hello():
+    init_dspy()
+    click.echo("I Didn’t Come To Rescue Rambo From You. I Came Here To Rescue You From Him.")
+
+@click.command()
+def suggest_me_a_synthesis(query: str ="i'm running a suzuki coupling reaction. what are the initial conditions?"):
+    init_dspy()
+    
+    click.echo("Suggesting a synthesis...")
+    # format natural language prompt into input for RAG
+    # retrieve k relevant passages (ReAct with RAG as tool)
+    # convert retrieval output into useable output
+    # call BO
+    # evaluate
+    boinit = BOInitializer()
+    resp = boinit(query=query)
+    print(resp)
+    
 
 @click.group()
 @click.option('--debug/--no-debug', default=False)
@@ -33,14 +54,7 @@ def cli(debug):
 def main():
     """CLI for rambo."""
 
-    from rambo.rag import BOInitializer
-
-    boinit = BOInitializer()
-
-    resp = boinit(query="i'm running a suzuki coupling reaction. what are the initial conditions?")
-
-    print(resp)
-
+main.add_command(hello)
 
 if __name__ == "__main__":
     main()
