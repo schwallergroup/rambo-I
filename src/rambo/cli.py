@@ -25,9 +25,21 @@ logger = logging.getLogger(__name__)
 
 
 @click.group()
-@click.version_option()
+@click.option('--debug/--no-debug', default=False)
+def cli(debug):
+    click.echo(f"Debug mode is {'on' if debug else 'off'}")
+
+@cli.command()
 def main():
     """CLI for rambo."""
+
+    from rambo.rag import BOInitializer
+
+    boinit = BOInitializer()
+
+    resp = boinit(query="i'm running a suzuki coupling reaction. what are the initial conditions?")
+
+    print(resp)
 
 
 if __name__ == "__main__":
