@@ -6,10 +6,14 @@ from dspy.functional import TypedPredictor
 
 
 class BojanaOutput(BaseModel):
-    #additive: str = Field(description="Additive to use, as SMILES.")
+    """
+    Represents the output of the Bojana tool.
+
+    Attributes:
+        temperature (float): The temperature to use.
+        solvent (str): The solvent to use.
+    """
     temperature: float = Field(description="Temperature to use.")
-    #time: float = Field(description="Time to use.")
-    #pressure: float = Field(description="Pressure to use.")
     solvent: str = Field(description="Solvent to use.")
 
 class BOSignature(dspy.Signature):
@@ -21,11 +25,13 @@ class BOSignature(dspy.Signature):
 
 
 class BOInitializer(dspy.Module):
+    """Initialize the BO module."""
     def __init__(self):
         super().__init__()
         self.predictor = TypedPredictor(BOSignature)
 
     def forward(self, query):
+        """Forward pass of the BO module."""
         # TODO Implement retrieval
         context = ['for suzuki coupling, use always Pd catalysts and temperature of 84 degrees in water.']
 
