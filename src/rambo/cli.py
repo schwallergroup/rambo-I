@@ -19,7 +19,7 @@ import logging
 
 import click
 from rambo.utils import init_dspy
-from rambo.tools import BOInitializer, restructure_prompt, retrieve_reactions, suggest_synthesis
+from rambo.tools import BOInitializer, restructure_prompt, retrieve_reactions
 
 __all__ = [
     "main",
@@ -36,8 +36,8 @@ def hello():
 def suggest_me_a_synthesis(
     prompt: str = '''
     I want to perform a Suzuki coupling with a new aryl halide, namely ... .
-    I have the following ligands available
-    what are the initial conditions?
+    I have the Bisphos ligand and the Pd catalyst.
+    would be great to have a temperature at room temperature.
     '''
 ):
     init_dspy()
@@ -49,14 +49,12 @@ def suggest_me_a_synthesis(
     retrieved_reactions = retrieve_reactions(restructured_prompt)
     print(retrieved_reactions)
     
-    suggested_synthesis = suggest_synthesis(prompt, restructured_prompt, retrieved_reactions)
-    
     # convert retrieval output into useable output
     # call BO
     # evaluate
-    boinit = BOInitializer()
-    resp = boinit(query=suggested_synthesis)
-    print(resp)
+    # boinit = BOInitializer()
+    # resp = boinit(query=suggested_synthesis)
+    # print(resp)
     
 
 @click.group()
