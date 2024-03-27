@@ -1,9 +1,9 @@
-#from chromadb.api.types import Documents
-#from chromadb.utils import embedding_functions
-#from chromadb.utils.embedding_functions import EmbeddingFunction
+# from chromadb.api.types import Documents
+# from chromadb.utils import embedding_functions
+# from chromadb.utils.embedding_functions import EmbeddingFunction
 #
 #
-#def get_embedding_function() -> EmbeddingFunction[Documents] | None:
+# def get_embedding_function() -> EmbeddingFunction[Documents] | None:
 #    """Get the default embedding function for documents.
 #
 #    Returns:
