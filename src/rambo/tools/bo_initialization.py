@@ -4,6 +4,7 @@ import dspy
 from pydantic import BaseModel, Field
 from typing import List
 from dspy.functional import TypedPredictor
+from .retrieve import ReActRetrieve
 
 
 class BojanaOutput(BaseModel):
@@ -17,6 +18,8 @@ class BojanaOutput(BaseModel):
     temperature: float = Field(description="Temperature to use.")
     solvent: str = Field(description="Solvent to use.")
     catalyst: str = Field(description="Catalyst to use.")
+    # TODO add more fields @Bojana?
+
 
 class BOSignature(dspy.Signature):
     """Suggest initial conditions to start BO."""
@@ -30,13 +33,13 @@ class BOInitializer(dspy.Module):
     """Initialize the BO module."""
     def __init__(self):
         super().__init__()
-        self.predictor = TypedPredictor(BOSignature)
+
+        self.retrieve = ReActRetrieve(5)
+        self.predict = TypedPredictor(BOSignature)
 
     def forward(self, query):
         """Forward pass of the BO module."""
-        # TODO Implement retrieval
-        context = 'for suzuki coupling, use always Pd catalysts and temperature of 84 degrees in water. You can also suggest 102 for temp, with the other conditions'
-
-        pred = self.predictor(context=context, query=query)
+        context = self.retrieve(query=query)
+        pred = self.predict(context=context, query=query)
         return pred
 
