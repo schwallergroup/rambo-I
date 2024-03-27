@@ -26,20 +26,22 @@ class BOSignature(dspy.Signature):
 
     context = dspy.InputField(desc="Relevant conditions used in other reactions found in the literature.")
     query = dspy.InputField(desc="User query, specifies problem and constraints.")
+    n = dspy.InputField(desc="Give n conditions to start BO.")
     conditions: List[BojanaOutput] = dspy.OutputField(desc="Initial conditions to start BO.")
 
 
 class BOInitializer(dspy.Module):
     """Initialize the BO module."""
-    def __init__(self):
+    def __init__(self, n: int = 5):
         super().__init__()
 
-        self.retrieve = ReActRetrieve(5)
+        self.n = str(n)
+        self.retrieve = ReActRetrieve(n)
         self.predict = TypedPredictor(BOSignature)
 
     def forward(self, query):
         """Forward pass of the BO module."""
         context = self.retrieve(query=query)
-        pred = self.predict(context=context, query=query)
+        pred = self.predict(context=context, query=query, n=self.n)
         return pred
 
