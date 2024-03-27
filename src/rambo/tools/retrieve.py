@@ -1,33 +1,37 @@
 import dspy
 
 
-class RAG(dspy.Module):
-    def __init__(self, num_passages: int = 3):
-        """Basic RAG module for question answering.
+def restructure_prompt(prompt: str):
+    """Restructure the prompt for the RAG module.
 
-        Args:
-            num_passages: Number of passages to retrieve for each question.
-        """
-        super().__init__()
+    Args:
+        prompt: The input prompt.
 
-        self.retrieve = dspy.Retrieve(k=num_passages)
-        self.generate_answer = dspy.ChainOfThought(
-            "question, contexts -> answer"
-        )
+    Returns:
+        The restructured prompt.
+    """
+    return f"question: {prompt} context: "
 
-    def forward(
-        self, question: str, initial_context: str = ""
-    ) -> dspy.Prediction:
-        """Forward pass of the RAG module.
+def retrieve_reactions(restructured_prompt: str):
+    """Retrieve reactions using the RAG module.
 
-        Args:
-            question: The input question.
+    Args:
+        restructured_prompt: The restructured prompt.
 
-        Returns:
-            A dspy.Prediction object containing the predicted answer.
-        """
-        contexts = "\n".join(self.retrieve(question).passages)
+    Returns:
+        The retrieved reactions.
+    """
+    rag = dspy.RAG()
+    return rag(restructured_prompt).answer
 
-        print(f"Retrieved contexts: {contexts}")
-        prediction = self.generate_answer(question=question, contexts=contexts)
-        return dspy.Prediction(answer=prediction.answer)
+def suggest_synthesis(prompt: str):
+    """Suggest a synthesis given a prompt.
+
+    Args:
+        prompt: The input prompt.
+
+    Returns:
+        The suggested synthesis.
+    """
+    restructured_prompt = restructure_prompt(prompt)
+    return retrieve_reactions(restructured_prompt)
