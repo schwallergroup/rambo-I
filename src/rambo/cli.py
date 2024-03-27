@@ -16,6 +16,7 @@ later, but that will cause problems--the code will get executed twice:
 import logging
 
 import click
+from rambo.utils import init_dspy
 
 __all__ = [
     "main",
@@ -23,12 +24,17 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
+@click.command()
+def hello():
+    init_dspy()
+    click.echo("Hello, World!")
 
 @click.group()
 @click.version_option()
 def main():
     """CLI for rambo."""
 
+main.add_command(hello)
 
 if __name__ == "__main__":
     main()
