@@ -10,6 +10,7 @@ def restructure_prompt(prompt: str):
     Returns:
         The restructured prompt.
     """
+    
     return f"question: {prompt} context: "
 
 def retrieve_reactions(restructured_prompt: str):
