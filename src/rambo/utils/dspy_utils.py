@@ -5,7 +5,7 @@ import openai
 from dotenv import load_dotenv
 from dspy.retrieve.chromadb_rm import ChromadbRM
 
-# from rambo.utils.embedding import get_embedding_function
+# from rambo.utils import get_embedding_function
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -35,7 +35,7 @@ SYSTEM INSTRUCTIONS:
 """
 
 def init_dspy(
-    database_name: str = "",
+    database_name: str = "chroma_db",
     language_model_class=dspy.OpenAI,
     max_tokens: int = 500,
     model: str = "gpt-3.5-turbo-instruct",
@@ -43,14 +43,12 @@ def init_dspy(
 
     language_model = language_model_class(max_tokens=max_tokens, model=model, system_prompt=system_prompt)
 
-    if database_name == "":
-        dspy.settings.configure(lm=language_model)
-    else:
-        embedding_function = get_embedding_function()
-        retrieval_model = ChromadbRM(
-            collection_name=database_name,
-            persist_directory=CHROMA_DB_PATH,
-            embedding_function=embedding_function,
-        )
+    # embedding_function = get_embedding_function()
+    # retrieval_model = ChromadbRM(
+    #     collection_name=database_name,
+    #     persist_directory=CHROMA_DB_PATH,
+    #     embedding_function=embedding_function,
+    # )
 
-        dspy.settings.configure(lm=language_model, rm=retrieval_model)
+    # dspy.settings.configure(lm=language_model, rm=retrieval_model)
+    dspy.settings.configure(lm=language_model)
