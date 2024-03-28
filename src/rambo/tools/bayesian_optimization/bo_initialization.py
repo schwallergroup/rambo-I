@@ -14,9 +14,9 @@ design_space = get_design_space()
 choices_reactant_1 = design_space['reactant_1']
 choices_reactant_2 = design_space['reactant_2']
 choices_catalyst = design_space['catalyst']
-choices_ligand = design_space['ligand'][0] # selecting just one element because otherwise the chhoices are too complicated
-choices_reagent = design_space['reagent'][0]
-choices_solvent = design_space['solvent'][0]
+choices_ligand = design_space['ligand']
+choices_reagent = design_space['reagent']
+choices_solvent = design_space['solvent']
 
 class BOInput(BaseModel):
     """
