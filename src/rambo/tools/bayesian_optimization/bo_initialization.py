@@ -11,23 +11,12 @@ from rambo.tools.retrieval import ReActRetrieve
 from .design_space import get_design_space
 
 design_space = get_design_space()
-# Defining the choices as Literal types
-# TODO
-# choices_reactant_1 is design_space['reactant_1'] cast to a string where each list tiem is separated by a comma
-choices_reactant_1 = design_space['reactant_1'][0]
-choices_reactant_2 = design_space['reactant_2'][0]
-choices_catalyst = design_space['catalyst'][0]
-choices_ligand = design_space['ligand'][0]
+choices_reactant_1 = design_space['reactant_1']
+choices_reactant_2 = design_space['reactant_2']
+choices_catalyst = design_space['catalyst']
+choices_ligand = design_space['ligand'][0] # selecting just one element because otherwise the chhoices are too complicated
 choices_reagent = design_space['reagent'][0]
 choices_solvent = design_space['solvent'][0]
-
-print(choices_reactant_1)
-print(choices_reactant_2)
-print(choices_catalyst)
-print(choices_ligand)
-print(choices_reagent)
-print(choices_solvent)
-
 
 class BOInput(BaseModel):
     """
