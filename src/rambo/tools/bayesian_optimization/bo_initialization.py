@@ -1,6 +1,6 @@
 """Main functionality for RAG model."""
 
-from typing import List
+from typing import List, Optional
 
 import dspy
 from dspy.functional import TypedPredictor
@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 from rambo.tools.retrieval import ReActRetrieve
 
 
-class BojanaOutput(BaseModel):
+class BOInput(BaseModel):
     """
     Represents the output of the Bojana tool.
 
@@ -18,9 +18,14 @@ class BojanaOutput(BaseModel):
         solvent (str): The solvent to use.
     """
 
-    temperature: float = Field(description="Temperature to use.")
-    solvent: str = Field(description="Solvent to use.")
+    reactant_1: str = Field(description="Reactant 1 to use.")
+    reactant_2: str = Field(description="Reactant 2 to use.")
     catalyst: str = Field(description="Catalyst to use.")
+    ligand: str = Field(description="Ligand to use.")
+    reagent: str = Field(description="Reagent to use.")
+    solvent: str = Field(description="Solvent to use.")
+
+    # input_param_values = DesignSpace
     # TODO add more fields @Bojana?
 
 
@@ -34,7 +39,7 @@ class BOSignature(dspy.Signature):
         desc="User query, specifies problem and constraints."
     )
     n = dspy.InputField(desc="Give n conditions to start BO.")
-    conditions: List[BojanaOutput] = dspy.OutputField(
+    conditions: List[BOInput] = dspy.OutputField(
         desc="Initial conditions to start BO."
     )
 
