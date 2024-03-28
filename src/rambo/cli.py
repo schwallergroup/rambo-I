@@ -25,14 +25,22 @@ def hello():
 
 
 @click.command()
-@click.option('--prompt', default=(
-    "I want to perform a Suzuki coupling with a new aryl halide, "
-    "what would be the optimal conditions to start?"
-), help='Provide a prompt for the synthesis suggestion.')
-@click.option('--retrieval_type', default='embedding', show_default=True, 
-              type=click.Choice(['embedding', 'test', 'agent'], case_sensitive=False),
-              help='Specify the retrieval type.')
-def suggest_me_a_synthesis(prompt, retrieval_type):
+@click.option(
+    "--prompt",
+    default=(
+        "I want to perform a Suzuki coupling with a new aryl halide, "
+        "what would be the optimal conditions to start?"
+    ),
+    help="Provide a prompt for the synthesis suggestion.",
+)
+@click.option(
+    "--retrieval_type",
+    default="embedding",
+    show_default=True,
+    type=click.Choice(["embedding", "test", "agent"], case_sensitive=False),
+    help="Specify the retrieval type.",
+)
+def suggest(prompt, retrieval_type):
     init_dspy(retrieval_type=retrieval_type)
     boinit = BOInitializer()
     resp = boinit(query=prompt)
@@ -52,7 +60,7 @@ def main():
 
 
 main.add_command(hello)
-main.add_command(suggest_me_a_synthesis)
+main.add_command(suggest)
 
 if __name__ == "__main__":
     main()
