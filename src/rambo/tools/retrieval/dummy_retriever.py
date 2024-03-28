@@ -1,12 +1,16 @@
-from pydantic import BaseModel
 from typing import List
+
+from pydantic import BaseModel
+
 
 class Text(BaseModel):
     """
     Represents a text object with two properties: text and long_text.
     """
+
     text: str
     long_text: str
+
 
 class DummyRetrievalModel:
     """
@@ -39,7 +43,11 @@ class DummyRetrievalModel:
         Returns:
             List[Text]: A list of Text objects.
         """
-        return [Text(text=self.opts[i], long_text=self.opts[i]) for i in range(min(k, len(self.opts)))]
+        return [
+            Text(text=self.opts[i], long_text=self.opts[i])
+            for i in range(min(k, len(self.opts)))
+        ]
+
 
 def get_dummy_retriever() -> DummyRetrievalModel:
     """

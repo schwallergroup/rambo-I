@@ -1,4 +1,3 @@
-import dspy
 from typing import List
 
 import dspy
@@ -15,6 +14,7 @@ class RAGSignature(dspy.Signature):
     relevant_syntheses: List[str] = dspy.OutputField(
         desc="Summary of conditions used in other relevant reactions."
     )
+
 
 class ReActRetrieve(dspy.Module):
     def __init__(self, n: int = 5):
