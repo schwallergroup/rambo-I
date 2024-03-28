@@ -1,22 +1,24 @@
 """Main functionality for RAG model."""
 
-from typing import List, Optional
+from typing import Annotated, List, Literal, Optional
 
 import dspy
 from dspy.functional import TypedPredictor
 from pydantic import BaseModel, Field
-from typing import Literal
 
 from rambo.tools.retrieval import ReActRetrieve
+
 from .design_space import get_design_space
 
 design_space = get_design_space()
-choices_reactant_1 = design_space['reactant_1']
-choices_reactant_2 = design_space['reactant_2']
-choices_catalyst = design_space['catalyst']
-choices_ligand = design_space['ligand'][0] # selecting just one element because otherwise the chhoices are too complicated
-choices_reagent = design_space['reagent'][0]
-choices_solvent = design_space['solvent'][0]
+choices_reactant_1 = tuple(design_space["reactant_1"])
+choices_reactant_2 = tuple(design_space["reactant_2"])
+choices_catalyst = tuple(design_space["catalyst"])
+# Limit to 5 choices for ease
+choices_ligand = tuple(design_space["ligand"][:5])
+choices_reagent = tuple(design_space["reagent"][:5])
+choices_solvent = tuple(design_space["solvent"][:5])
+
 
 class BOInput(BaseModel):
     """
@@ -26,12 +28,13 @@ class BOInput(BaseModel):
         temperature (float): The temperature to use.
         solvent (str): The solvent to use.
     """
-    reactant_1: str = Field(desc=f"Reactant 1 to use. The choices are {choices_reactant_1}")
-    reactant_2: str = Field(desc=f"Reactant 2 to use. The choices are {choices_reactant_2}")
-    catalyst: str = Field(desc=f"Catalyst to use. The choices are {choices_catalyst}")
-    ligand: str = Field(desc=f"Ligand to use. The choices are {choices_ligand}")
-    reagent: str = Field(desc=f"Reagent to use. The choices are {choices_reagent}")
-    solvent: str = Field(desc=f"Solvent to use. The choices are {choices_solvent}")
+
+    reactant_1: Literal[choices_reactant_1] = Field(desc=f"Reactant 1 to use.")
+    reactant_2: Literal[choices_reactant_2] = Field(desc=f"Reactant 2 to use.")
+    catalyst: Literal[choices_catalyst] = Field(desc=f"Catalyst to use.")
+    ligand: Literal[choices_ligand] = Field(desc=f"Ligand to use.")
+    reagent: Literal[choices_reagent] = Field(desc=f"Reagent to use.")
+    solvent: Literal[choices_solvent] = Field(desc=f"Solvent to use.")
 
     # TODO make dynamic from natural language prompt/dataset
 
