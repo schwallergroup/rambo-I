@@ -58,17 +58,17 @@ class Design():
         else:
             return "No matching entry found."
        
- 
-sm = pd.read_csv('data/suzuki-miyaura.csv')  
-sm = sm.fillna('')
-smiles_columns = ['reactant_1', 'reactant_2', 'catalyst',
-       'ligand', 'reagent', 'solvent']
 
-parameters = [
-    Parameter(name=col, smiles=sm[col].unique()) for col in sm[smiles_columns].columns
-   
-]
+def get_design_space(
+        design_space_dataset_name: str = 'data/suzuki-miyaura.csv',
+        param_names: List[str] = ['reactant_1', 'reactant_2', 'catalyst',
+                                     'ligand', 'reagent', 'solvent']
+    ) -> DesignSpaceConfig:
+    design_space = pd.read_csv(design_space_dataset_name)
+    design_space = design_space.fillna('')
 
-config = DesignSpaceConfig(parameters=parameters)
-design = Design('data/suzuki-miyaura.csv', config)
-print(design.space.head())
+    parameters = [
+        Parameter(name=col, smiles=design_space[col].unique()) for col in design_space[param_names].columns
+    ]
+
+    return {param.name: param.smiles for param in parameters}
