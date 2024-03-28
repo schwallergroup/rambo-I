@@ -52,5 +52,6 @@ class BOInitializer(dspy.Module):
     def forward(self, query):
         """Forward pass of the BO module."""
         context = self.retrieve(query=query)
+        print(context)
         pred = self.predict(context=context, query=query, n=self.n)
         return pred
