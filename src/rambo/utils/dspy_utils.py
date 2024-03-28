@@ -17,7 +17,7 @@ def init_dspy(
     database_name: str = "text-embedding-3-small_text_description",
     language_model_class=dspy.OpenAI,
     max_tokens: int = 500,
-    model: str = "gpt-3.5-turbo-instruct",
+    model: str = "gpt-4-0613",
     retrieval_type: str = "embedding",
 ):
     language_model = language_model_class(max_tokens=max_tokens, model=model)
