@@ -15,24 +15,6 @@ custom_css = """
 </style>
 """
 
-def print_like_dislike(x: gr.LikeData):
-    print(x.index, x.value, x.liked)
-
-def add_message(history, message):
-    for x in message["files"]:
-        history.append(((x,), None))
-    if message["text"] is not None:
-        history.append((message["text"], None))
-    return history, gr.MultimodalTextbox(value=None, interactive=False)
-
-def bot(history):
-    response = "**That's cool!**"
-    history[-1][1] = ""
-    for character in response:
-        history[-1][1] += character
-        time.sleep(0.05)
-        yield history
-
 import base64
 
 def image_to_data_uri(filepath):
@@ -46,7 +28,6 @@ image = f"""
 <img src="{image_data_uri}" alt="Your Image Alt Text" width="400"/>
 Initializing BO, the smart way.
 """
-
 
 from rambo.tools import BOInitializer
 from rambo.utils import init_dspy
