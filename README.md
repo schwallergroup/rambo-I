@@ -10,9 +10,6 @@
 <br>
 
 [![tests](https://github.com/schwallergroup/rambo-I/actions/workflows/tests.yml/badge.svg)](https://github.com/schwallergroup/rambo-I)
-[![DOI:10.1101/2020.07.15.204701](https://zenodo.org/badge/DOI/10.48550/arXiv.2304.05376.svg)](https://doi.org/10.48550/arXiv.2304.05376)
-[![PyPI](https://img.shields.io/pypi/v/rambo-I)](https://img.shields.io/pypi/v/rambo-I)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/rambo-I)](https://img.shields.io/pypi/pyversions/rambo-I)
 [![Documentation Status](https://readthedocs.org/projects/rambo/badge/?version=latest)](https://rambo.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Cookiecutter template from @SchwallerGroup](https://img.shields.io/badge/Cookiecutter-schwallergroup-blue)](https://github.com/schwallergroup/liac-repo)
@@ -33,8 +30,10 @@ Retrieval augmented Bayesian optimization
 
 ## 🔥 Usage
 
-> TODO show in a very small amount of space the **MOST** useful thing your package can do.
-> Make it as short as possible! You have an entire set of docs for later.
+> How to select the first few experiments for your optimization campaign?
+>
+> RAMBO leverages your lab's data to suggest promising first steps, and then optimizes from there using BO.
+
 
 Set the following environment variables in your `.env` file:
 
@@ -42,6 +41,19 @@ Set the following environment variables in your `.env` file:
 OPENAI_API_KEY = '...'
 CHROMA_DB_PATH = '...' # path to persistent chroma db. This is given as a chroma.sqlite3 file and should be set to /path/to/rambo-I/chroma
 ```
+
+CLI:
+```bash
+rambo suggest --prompt="Suzuki coupling between primary halide and boronic acid."
+```
+
+This code will suggest initial conditions that are well suited to your specs, leveraging internal data.
+
+## App
+
+<img width="1240" alt="image" src="https://github.com/schwallergroup/rambo-I/assets/32375632/5d89617e-cd67-4508-9028-5d98eee3d0f5">
+
+
 
 
 ## 👩‍💻 Installation
