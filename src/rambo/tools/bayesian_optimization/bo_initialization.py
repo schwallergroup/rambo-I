@@ -28,14 +28,12 @@ class BOInput(BaseModel):
         temperature (float): The temperature to use.
         solvent (str): The solvent to use.
     """
-
     reactant_1: Literal[choices_reactant_1] = Field(desc=f"Reactant 1 to use.")
     reactant_2: Literal[choices_reactant_2] = Field(desc=f"Reactant 2 to use.")
     catalyst: Literal[choices_catalyst] = Field(desc=f"Catalyst to use.")
     ligand: Literal[choices_ligand] = Field(desc=f"Ligand to use.")
     reagent: Literal[choices_reagent] = Field(desc=f"Reagent to use.")
     solvent: Literal[choices_solvent] = Field(desc=f"Solvent to use.")
-
     # TODO make dynamic from natural language prompt/dataset
 
 

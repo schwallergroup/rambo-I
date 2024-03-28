@@ -6,6 +6,7 @@ import pandas as pd
 from pydantic import BaseModel, Field, field_validator
 
 
+
 class Parameter(BaseModel):
     name: str
     smiles: Optional[List[str]] = None
