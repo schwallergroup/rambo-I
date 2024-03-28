@@ -36,6 +36,13 @@ Retrieval augmented Bayesian optimization
 > TODO show in a very small amount of space the **MOST** useful thing your package can do.
 > Make it as short as possible! You have an entire set of docs for later.
 
+Set the following environment variables in your `.env` file:
+
+```bash
+OPENAI_API_KEY = '...'
+CHROMA_DB_PATH = '...' # path to persistent chroma db. This is given as a chroma.sqlite3 file and should be set to /path/to/rambo-I/chroma
+```
+
 
 ## 👩‍💻 Installation
 

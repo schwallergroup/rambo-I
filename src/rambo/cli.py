@@ -1,21 +1,13 @@
 # -*- coding: utf-8 -*-
 
-"""Command line interface for :mod:`rambo`.
-
-Why does this file exist, and why not put this in ``__main__``? You might be tempted to import things from ``__main__``
-later, but that will cause problems--the code will get executed twice:
-
-- When you run ``python3 -m rambo`` python will execute``__main__.py`` as a script.
-  That means there won't be any ``rambo.__main__`` in ``sys.modules``.
-- When you import __main__ it will get executed again (as a module) because
-  there's no ``rambo.__main__`` in ``sys.modules``.
-
-.. seealso:: https://click.palletsprojects.com/en/8.1.x/setuptools/#setuptools-integration
-"""
+"""Command line interface for :mod:`rambo`."""
 
 import logging
 
 import click
+
+from rambo.tools import BOInitializer
+from rambo.utils import init_dspy
 
 __all__ = [
     "main",
@@ -24,11 +16,51 @@ __all__ = [
 logger = logging.getLogger(__name__)
 
 
+@click.command()
+def hello():
+    init_dspy()
+    click.echo(
+        "I Didn’t Come To Rescue Rambo From You. I Came Here To Rescue You From Him."
+    )
+
+
+@click.command()
+@click.option(
+    "--prompt",
+    default=(
+        "I want to perform a Suzuki coupling with a new aryl halide, "
+        "what would be the optimal conditions to start?"
+    ),
+    help="Provide a prompt for the synthesis suggestion.",
+)
+@click.option(
+    "--retrieval_type",
+    default="embedding",
+    show_default=True,
+    type=click.Choice(["embedding", "test", "agent"], case_sensitive=False),
+    help="Specify the retrieval type.",
+)
+def suggest(prompt, retrieval_type):
+    init_dspy(retrieval_type=retrieval_type)
+    boinit = BOInitializer()
+    resp = boinit(query=prompt)
+    print(resp)
+
+
+@click.group()
+@click.option("--debug/--no-debug", default=False)
+def cli(debug):
+    click.echo(f"Debug mode is {'on' if debug else 'off'}")
+
+
 @click.group()
 @click.version_option()
 def main():
     """CLI for rambo."""
 
+
+main.add_command(hello)
+main.add_command(suggest)
 
 if __name__ == "__main__":
     main()
