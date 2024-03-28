@@ -13,12 +13,20 @@ from .design_space import get_design_space
 design_space = get_design_space()
 # Defining the choices as Literal types
 # TODO
-# ChoicesReactant1 = Literal[tuple(design_space['reactant_1'])]
-# ChoicesReactant2 = Literal[tuple(design_space['reactant_2'])]
-# ChoicesCatalyst = Literal[tuple(design_space['catalyst'])]
-# ChoicesLigand = Literal[tuple(design_space['ligand'])]
-# ChoicesReagent = Literal[tuple(design_space['reagent'])]
-# ChoicesSolvent = Literal[tuple(design_space['solvent'])]
+# choices_reactant_1 is design_space['reactant_1'] cast to a string where each list tiem is separated by a comma
+choices_reactant_1 = design_space['reactant_1'][0]
+choices_reactant_2 = design_space['reactant_2'][0]
+choices_catalyst = design_space['catalyst'][0]
+choices_ligand = design_space['ligand'][0]
+choices_reagent = design_space['reagent'][0]
+choices_solvent = design_space['solvent'][0]
+
+print(choices_reactant_1)
+print(choices_reactant_2)
+print(choices_catalyst)
+print(choices_ligand)
+print(choices_reagent)
+print(choices_solvent)
 
 
 class BOInput(BaseModel):
@@ -29,12 +37,12 @@ class BOInput(BaseModel):
         temperature (float): The temperature to use.
         solvent (str): The solvent to use.
     """
-    reactant_1: str = Field(description=f"Reactant 1 to use. The choices are {', '.join(', '.join(design_space['reactant_1']))}")
-    reactant_2: str = Field(description=f"Reactant 2 to use. The choices are {', '.join(design_space['reactant_2'])}")
-    catalyst: str = Field(description=f"Catalyst to use. The choices are {', '.join(design_space['catalyst'])}")
-    ligand: str = Field(description=f"Ligand to use. The choices are {', '.join(design_space['ligand'])}")
-    reagent: str = Field(description=f"Reagent to use. The choices are {', '.join(design_space['reagent'])}")
-    solvent: str = Field(description=f"Solvent to use. The choices are {', '.join(design_space['solvent'])}")
+    reactant_1: List[str] = Field(description=f"Reactant 1 to use. The choices are {choices_reactant_1}")
+    reactant_2: List[str] = Field(description=f"Reactant 2 to use. The choices are {choices_reactant_2}")
+    catalyst: List[str] = Field(description=f"Catalyst to use. The choices are {choices_catalyst}")
+    ligand: List[str] = Field(description=f"Ligand to use. The choices are {choices_ligand}")
+    reagent: List[str] = Field(description=f"Reagent to use. The choices are {choices_reagent}")
+    solvent: List[str] = Field(description=f"Solvent to use. The choices are {choices_solvent}")
 
     # TODO make dynamic from natural language prompt/dataset
 
