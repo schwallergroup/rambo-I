@@ -36,8 +36,9 @@ import json
 
 load_dotenv()
 
-init_dspy(retrieval_type="test")  # TODO change this to embedding!
-bo = BOInitializer(5)
+n=6
+init_dspy(retrieval_type="embedding")  # TODO change this to embedding!
+bo = BOInitializer(n)
 
 state = gr.State()
 
@@ -46,28 +47,66 @@ def llm_answer(query: str):
     state.items = ctxt
 
     answer = bo(query=query)
-    formatted = ""
-    for c in answer.conditions:
+    formatted = "Based on the reactions retrieved from the database, here are some conditions you can try first:\n"
+    for c in answer.conditions[:1]:
         formatted += json.dumps(c.model_dump(), indent=4) + "\n"
     return formatted
 
 def update_text(button_id):
-    if button_id == "Doc 0":
-        return state.items.passages[0]
-    elif button_id == "Doc 1":
-        return state.items.passages[1]
-    elif button_id == "Doc 2":
-        return state.items.passages[2]
-    elif button_id == "Doc 3":
-        return state.items.passages[3]
-    elif button_id == "Doc 4":
-        return state.items.passages[4]
+
+    text = """{}"""
+
+    for i in range(5):
+        if button_id == f"Doc {i}":
+            return text.format(state.items.passages[i])
+    else:
+        return "Click a button..."
+
+import re
+
+import requests
+def cdk(smiles):
+    """
+    Get a depiction of some smiles.
+    """
+    
+    url = "http://liacpc11.epfl.ch:8081/depict/wob/svg"
+    headers = {'Content-Type': 'application/json'}
+    response = requests.get(
+        url,
+        headers=headers,
+        params={
+            "smi": smiles,
+            "zoom": 1,
+            "w": 150,
+            "h": 50,
+            "abbr": "off",
+        }
+    )
+
+    return response.text
+
+def update_image(button_id):
+
+    text = """{}"""
+
+    for i in range(n):
+
+        ret = state.items.passages[i]
+        smiles = re.findall(r'( .*>>.*? )', ret)[0].split(' ')[-2]
+        if button_id == f"Doc {i}":
+            return text.format(cdk(smiles))
     else:
         return "Click a button..."
 
 buttons = []
 
-with gr.Blocks(theme=gr.themes.Soft(primary_hue=gr.themes.colors.green,secondary_hue=gr.themes.colors.green),css=custom_css) as demo:
+with gr.Blocks(
+    theme=gr.themes.Soft(
+        primary_hue=gr.themes.colors.green,
+        secondary_hue=gr.themes.colors.green
+    ),css=custom_css
+) as demo:
 
     with gr.Row():
         gr.Markdown(image)
@@ -88,14 +127,16 @@ with gr.Blocks(theme=gr.themes.Soft(primary_hue=gr.themes.colors.green,secondary
 
         with gr.Column():
             with gr.Row():
-                for i in range(3):
+                for i in range(n):
                     buttons.append(gr.Button(f'Doc {i}'))
 
-            with gr.Row():
+            with gr.Column():
                 retrieve_textbox = gr.Textbox()
+                retrieve_image = gr.HTML()
 
-    for i in range(3):
+    for i in range(n):
         buttons[i].click(fn=update_text, inputs=[buttons[i]], outputs=retrieve_textbox)
+        buttons[i].click(fn=update_image, inputs=[buttons[i]], outputs=retrieve_image)
 
 
     # with gr.Row():
