@@ -34,6 +34,7 @@ class Design():
     def generate_design_space(self) -> pd.DataFrame:
         if self.path:
             df = pd.read_csv(self.path)
+            df = df.fillna('')
             design_space = df.loc[:, [param.name for param in self.config.parameters]].copy() 
             design_space.loc[:, self.objective] = df[self.objective]  
         else:
@@ -56,3 +57,18 @@ class Design():
             return filtered_space[self.objective].iloc[0]
         else:
             return "No matching entry found."
+       
+ 
+sm = pd.read_csv('data/suzuki-miyaura.csv')  
+sm = sm.fillna('')
+smiles_columns = ['reactant_1', 'reactant_2', 'catalyst',
+       'ligand', 'reagent', 'solvent']
+
+parameters = [
+    Parameter(name=col, smiles=sm[col].unique()) for col in sm[smiles_columns].columns
+   
+]
+
+config = DesignSpaceConfig(parameters=parameters)
+design = Design('data/suzuki-miyaura.csv', config)
+print(design.space.head())
