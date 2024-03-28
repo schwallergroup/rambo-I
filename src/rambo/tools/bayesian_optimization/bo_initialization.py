@@ -55,3 +55,9 @@ class BOInitializer(dspy.Module):
         print(context)
         pred = self.predict(context=context, query=query, n=self.n)
         return pred
+
+
+    def get_context(self, query):
+        """Retrieve the context directly."""
+        ret = dspy.Retrieve(k=int(self.n))
+        return ret(query)

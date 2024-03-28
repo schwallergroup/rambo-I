@@ -47,35 +47,42 @@ image = f"""
 Initializing BO, the smart way.
 """
 
-retrieved = [
-    '{"temperature": 25.0, "solvent": "water", "catalyst": "Pd"}',
-    '{"temperature": 50.0, "solvent": "ethanol", "catalyst": "Ni"}',
-    '{"temperature": 75.0, "solvent": "acetone", "catalyst": "Cu"}',
-]
-
-def update_text(button_id):
-    print(button_id)
-    if button_id == "Doc 0":
-        return retrieved[0]
-    elif button_id == "Doc 1":
-        return retrieved[1]
-    elif button_id == "Doc 2":
-        return retrieved[2]
-    else:
-        return "Click a button..."
 
 from rambo.tools import BOInitializer
 from rambo.utils import init_dspy
+from dotenv import load_dotenv
+import json
+
+load_dotenv()
+
+init_dspy(retrieval_type="test")  # TODO change this to embedding!
+bo = BOInitializer(5)
+
+state = gr.State()
+
 def llm_answer(query: str):
-    init_dspy()
-    bo = BOInitializer()
+    ctxt = bo.get_context(query)
+    state.items = ctxt
 
-    # retrieved = bo.get_context(query)
-    # TODO do something with 'retrieved'
-    answer = bo.forward(query)
-    return answer
+    answer = bo(query=query)
+    formatted = ""
+    for c in answer.conditions:
+        formatted += json.dumps(c.model_dump(), indent=4) + "\n"
+    return formatted
 
-
+def update_text(button_id):
+    if button_id == "Doc 0":
+        return state.items.passages[0]
+    elif button_id == "Doc 1":
+        return state.items.passages[1]
+    elif button_id == "Doc 2":
+        return state.items.passages[2]
+    elif button_id == "Doc 3":
+        return state.items.passages[3]
+    elif button_id == "Doc 4":
+        return state.items.passages[4]
+    else:
+        return "Click a button..."
 
 buttons = []
 
@@ -115,6 +122,9 @@ with gr.Blocks(theme=gr.themes.Soft(primary_hue=gr.themes.colors.green,secondary
 
 demo.queue()
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(
+        server_name='0.0.0.0',
+        server_port=8090
+    )
 
 	
