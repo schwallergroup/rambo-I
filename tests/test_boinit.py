@@ -16,7 +16,7 @@ def suzuki_prompt():
 @pytest.fixture
 def boinit():
     load_dotenv()
-    init_dspy()
+    init_dspy(retrieval_type="test")
     return BOInitializer(5)
 
 
