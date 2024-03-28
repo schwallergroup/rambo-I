@@ -29,12 +29,25 @@ class BOInput(BaseModel):
         temperature (float): The temperature to use.
         solvent (str): The solvent to use.
     """
-    reactant_1: str = Field(description=f"Reactant 1 to use. The choices are {', '.join(', '.join(design_space['reactant_1']))}")
-    reactant_2: str = Field(description=f"Reactant 2 to use. The choices are {', '.join(design_space['reactant_2'])}")
-    catalyst: str = Field(description=f"Catalyst to use. The choices are {', '.join(design_space['catalyst'])}")
-    ligand: str = Field(description=f"Ligand to use. The choices are {', '.join(design_space['ligand'])}")
-    reagent: str = Field(description=f"Reagent to use. The choices are {', '.join(design_space['reagent'])}")
-    solvent: str = Field(description=f"Solvent to use. The choices are {', '.join(design_space['solvent'])}")
+
+    reactant_1: str = Field(
+        description=f"Reactant 1 to use. The choices are {', '.join(', '.join(design_space['reactant_1']))}"
+    )
+    reactant_2: str = Field(
+        description=f"Reactant 2 to use. The choices are {', '.join(design_space['reactant_2'])}"
+    )
+    catalyst: str = Field(
+        description=f"Catalyst to use. The choices are {', '.join(design_space['catalyst'])}"
+    )
+    ligand: str = Field(
+        description=f"Ligand to use. The choices are {', '.join(design_space['ligand'])}"
+    )
+    reagent: str = Field(
+        description=f"Reagent to use. The choices are {', '.join(design_space['reagent'])}"
+    )
+    solvent: str = Field(
+        description=f"Solvent to use. The choices are {', '.join(design_space['solvent'])}"
+    )
 
     # TODO make dynamic from natural language prompt/dataset
 
