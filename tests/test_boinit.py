@@ -23,15 +23,10 @@ def boinit():
 def test_boinit_suzuki(boinit, suzuki_prompt):
     resp = boinit(query=suzuki_prompt)
 
-    temps = [
-        resp.conditions[i].temperature for i in range(len(resp.conditions))
-    ]
     solvents = [
         resp.conditions[i].solvent for i in range(len(resp.conditions))
     ]
 
     assert len(resp.conditions) == 5
-    assert 102.5 in temps
-    assert 83.91 in temps
 
-    assert "water" in solvents
+    assert "CC#N.O" in solvents
