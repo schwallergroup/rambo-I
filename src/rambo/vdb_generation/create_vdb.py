@@ -11,6 +11,8 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.chat_models import ChatOpenAI
 import chromadb
 from dotenv import load_dotenv
+import requests
+from io import StringIO
 
 embedding_model = 'text-embedding-3-small'
 save_path = './'
@@ -204,13 +206,25 @@ class DataFrameManager:
 if __name__ == '__main__':
     load_dotenv()
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    file_path = './data/8_SEPT_APPROVED_full_dataset.csv'
-    df = pd.read_csv(file_path)
+    # file_path = '8_SEPT_APPROVED_full_dataset.csv'
+    # df = pd.read_csv(file_path)
+    url = "https://raw.githubusercontent.com/emmaking-smith/HiTEA/master/data/8_SEPT_APPROVED_full_dataset.csv"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = StringIO(response.content.decode('utf-8'))
+        df = pd.read_csv(data)
+        
+        print("DataFrame loaded successfully.")
+    else:
+        print("Failed to fetch the file.")
+
     df_filtered = df[columns_to_keep]
+
     for column in smiles_columns:
         df_filtered[column] = df_filtered[column].apply(canonicalize_smiles)
+
     df_filtered['text_description'] = df_filtered.apply(create_text, axis=1)
     df_filtered['dict_description'] = df_filtered.apply(create_reaction_details, axis=1)
-    df_filtered = pd.read_csv(file_path)
     df_manager = DataFrameManager(save_path=save_path, text_column='text_description')
     collection = df_manager.add_texts_to_collection(df_filtered, text_column='text_description', columns_to_keep=columns_to_keep)
