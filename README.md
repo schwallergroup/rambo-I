@@ -26,14 +26,41 @@
 <br>
 
 
-Retrieval augmented Bayesian optimization
-
-## 🔥 Usage
+Retrieval AugMented Bayesian Optimization
 
 > How to select the first few experiments for your optimization campaign?
 >
-> RAMBO leverages your lab's data to suggest promising first steps, and then optimizes from there using BO.
+> RAMBO leverages previous data to suggest promising first steps, and then optimizes from there using BO.
 
+
+
+## 🔥 Usage
+
+```bash
+rambo suggest \
+    --prompt="Suzuki coupling between primary halide and boronic acid." \
+    --retrieval_type=embedding
+```
+
+This code will suggest initial conditions that are well suited to your specs, leveraging internal data and literature.
+
+
+
+## 👩‍💻 App
+
+See a live demonstration [here](https://shorturl.at/jnxzE)!
+
+[![demo](https://github.com/schwallergroup/rambo-I/assets/32375632/5d89617e-cd67-4508-9028-5d98eee3d0f5)](https://shorturl.at/jnxzE)
+
+
+
+## 👩‍💻 Installation
+
+The most recent code and data can be installed directly from GitHub with:
+
+```bash
+$ pip install git+https://github.com/schwallergroup/rambo-I.git
+```
 
 Set the following environment variables in your `.env` file:
 
@@ -42,131 +69,21 @@ OPENAI_API_KEY = '...'
 CHROMA_DB_PATH = '...' # path to persistent chroma db. This is given as a chroma.sqlite3 file and should be set to /path/to/rambo-I/chroma
 ```
 
-CLI:
-```bash
-rambo suggest --prompt="Suzuki coupling between primary halide and boronic acid."
-```
 
-This code will suggest initial conditions that are well suited to your specs, leveraging internal data.
+## Poster
 
-## App
+Check out our poster for the [AC-BO-Hackathon](https://ac-bo-hackathon.github.io/).
+![rambo_clean-1](https://github.com/schwallergroup/rambo-I/assets/32375632/9ac0ae1d-050f-4990-aa8b-32e46d1d0064)
 
-<img width="1240" alt="image" src="https://github.com/schwallergroup/rambo-I/assets/32375632/5d89617e-cd67-4508-9028-5d98eee3d0f5">
-
-
-
-
-## 👩‍💻 Installation
-
-<!-- Uncomment this section after your first ``tox -e finish``
-The most recent release can be installed from
-[PyPI](https://pypi.org/project/rambo/) with:
-
-```shell
-$ pip install rambo
-```
--->
-
-The most recent code and data can be installed directly from GitHub with:
-
-```bash
-$ pip install git+https://github.com/schwallergroup/rambo-I.git
-```
 
 ## ✅ Citation
 
-Philippe Schwaller et al. "Molecular Transformer: A Model for Uncertainty-Calibrated Chemical Reaction Prediction". ACS Central Science 2019 5 (9), 1572-1583
 ```bibtex
-@article{doi:10.1021/acscentsci.9b00576,
-    author = {Schwaller, Philippe and Laino, Teodoro and Gaudin, Théophile and Bolgar, Peter and Hunter, Christopher A. and Bekas, Costas and Lee, Alpha A.},
-    title = {Molecular Transformer: A Model for Uncertainty-Calibrated Chemical Reaction Prediction},
-    journal = {ACS Central Science},
-    volume = {5},
-    number = {9},
-    pages = {1572-1583},
-    year = {2019},
-    doi = {10.1021/acscentsci.9b00576},
-}
-
-@Misc{this_repo,
-  author = { Bojana Rankovic },
+@Misc{rambo,
+  author = { Bojana Rankovic, Andres M Bran, Magdalena Lederbauer, Anna Borisova, Geemie Wellawette, Philippe Schwaller },
   title = { rambo - Retrieval augmented Bayesian optimization },
   howpublished = {Github},
-  year = {2023},
+  year = {2024},
   url = {https://github.com/schwallergroup/rambo-I }
 }
 ```
-
-
-## 🛠️ For Developers
-
-
-<details>
-  <summary>See developer instructions</summary>
-
-
-
-### 👐 Contributing
-
-Contributions, whether filing an issue, making a pull request, or forking, are appreciated. See
-[CONTRIBUTING.md](https://github.com/schwallergroup/rambo-I/blob/master/.github/CONTRIBUTING.md) for more information on getting involved.
-
-
-### Development Installation
-
-To install in development mode, use the following:
-
-```bash
-$ git clone git+https://github.com/schwallergroup/rambo-I.git
-$ cd rambo-I
-$ pip install -e .
-```
-
-### 🥼 Testing
-
-After cloning the repository and installing `tox` with `pip install tox`, the unit tests in the `tests/` folder can be
-run reproducibly with:
-
-```shell
-$ tox
-```
-
-Additionally, these tests are automatically re-run with each commit in a [GitHub Action](https://github.com/schwallergroup/rambo-I/actions?query=workflow%3ATests).
-
-### 📖 Building the Documentation
-
-The documentation can be built locally using the following:
-
-```shell
-$ git clone git+https://github.com/schwallergroup/rambo-I.git
-$ cd rambo-I
-$ tox -e docs
-$ open docs/build/html/index.html
-```
-
-The documentation automatically installs the package as well as the `docs`
-extra specified in the [`setup.cfg`](setup.cfg). `sphinx` plugins
-like `texext` can be added there. Additionally, they need to be added to the
-`extensions` list in [`docs/source/conf.py`](docs/source/conf.py).
-
-### 📦 Making a Release
-
-After installing the package in development mode and installing
-`tox` with `pip install tox`, the commands for making a new release are contained within the `finish` environment
-in `tox.ini`. Run the following from the shell:
-
-```shell
-$ tox -e finish
-```
-
-This script does the following:
-
-1. Uses [Bump2Version](https://github.com/c4urself/bump2version) to switch the version number in the `setup.cfg`,
-   `src/rambo/version.py`, and [`docs/source/conf.py`](docs/source/conf.py) to not have the `-dev` suffix
-2. Packages the code in both a tar archive and a wheel using [`build`](https://github.com/pypa/build)
-3. Uploads to PyPI using [`twine`](https://github.com/pypa/twine). Be sure to have a `.pypirc` file configured to avoid the need for manual input at this
-   step
-4. Push to GitHub. You'll need to make a release going with the commit where the version was bumped.
-5. Bump the version to the next patch. If you made big changes and want to bump the version by minor, you can
-   use `tox -e bumpversion -- minor` after.
-</details>
