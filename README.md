@@ -79,7 +79,7 @@ Check out our poster for the [AC-BO-Hackathon](https://ac-bo-hackathon.github.io
 ## ✅ Citation
 
 ```bibtex
-@Misc{this_repo,
+@Misc{rambo,
   author = { Bojana Rankovic, Andres M Bran, Magdalena Lederbauer, Anna Borisova, Geemie Wellawette, Philippe Schwaller },
   title = { rambo - Retrieval augmented Bayesian optimization },
   howpublished = {Github},
