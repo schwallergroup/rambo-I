@@ -27,7 +27,3 @@ class ReActRetrieve(dspy.Module):
         """Forward pass of the ReActRetrieve module."""
         ctxt = self.retrieve(query)
         return "\n".join(ctxt.passages)
-
-        # response = self.react(query=query, n=self.n)
-        # print(response)
-        # return response.relevant_syntheses
