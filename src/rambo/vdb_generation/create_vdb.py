@@ -204,7 +204,7 @@ class DataFrameManager:
 if __name__ == '__main__':
     load_dotenv()
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    file_path = '8_SEPT_APPROVED_full_dataset.csv'
+    file_path = './data/8_SEPT_APPROVED_full_dataset.csv'
     df = pd.read_csv(file_path)
     df_filtered = df[columns_to_keep]
     for column in smiles_columns:
