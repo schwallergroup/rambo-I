@@ -1,8 +1,10 @@
-from typing import List, Optional, Union
-from pydantic import BaseModel, Field, field_validator
 import itertools
-import pandas as pd
+from typing import List, Optional, Union
+
 import numpy as np
+import pandas as pd
+from pydantic import BaseModel, Field, field_validator
+
 
 
 class Parameter(BaseModel):
